@@ -80,13 +80,18 @@
           <a-form-model-item ref="name" label="整改进度" prop="progress">
             <a-row :gutter="48">
               <a-col :span="4">
-                <a-input-number v-model="form.progress" :min="0" :max="100" @change="manualValidate"/>
+                <a-input-number
+                  v-model="form.progress"
+                  :min="0"
+                  :max="100"
+                  :precision="0"
+                  :formatter="value => `${value}%`"
+                  :parser="value => value.replace('%', '')"
+                  @change="manualValidate('progress')"/>
               </a-col>
               <a-col :span="20">
                 <a-progress
                   :percent="+form.progress"
-                  :formatter="value => `${value}%`"
-                  :parser="value => value.replace('%', '')"
                   size="small"/>
               </a-col>
 
@@ -94,7 +99,7 @@
           </a-form-model-item>
 
           <a-form-model-item label="整改描述" prop="description">
-            <a-input v-model="form.description" type="textarea" :precision="0"/>
+            <a-input v-model="form.description" type="textarea" @change="manualValidate('description')"/>
           </a-form-model-item>
         </a-form-model>
       </div>
@@ -136,14 +141,14 @@ export default {
         ],
         description: [
           { required: true, message: '请输入整改描述', trigger: 'blur, change' },
-          { max: 500, message: '整改描述最多输入500字', trigger: 'blur, change' }
+          { max: 255, message: '整改描述长度不超过255个汉字', trigger: 'blur, change' }
         ]
       }
     }
   },
   methods: {
-    manualValidate () {
-      this.$refs.ruleForm.validate(['progress'])
+    manualValidate (type) {
+      this.$refs.ruleForm.validate([type])
     },
     handleOk () {
       this.$refs.ruleForm.validate((valid) => {
