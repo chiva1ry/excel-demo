@@ -1,66 +1,114 @@
 <template>
   <page-header-wrapper>
-    <!-- PageHeader 第二种使用方式 (v-slot) -->
-    <template v-slot:content>
-      将一个冗长或用户不熟悉的表单任务分成多个步骤，指导用户完成。
-    </template>
     <a-card :bordered="false">
-      <a-steps class="steps" :current="currentTab">
-        <a-step title="填写转账信息" />
-        <a-step title="确认转账信息" />
-        <a-step title="完成" />
-      </a-steps>
-      <div class="content">
-        <step1 v-if="currentTab === 0" @nextStep="nextStep"/>
-        <step2 v-if="currentTab === 1" @nextStep="nextStep" @prevStep="prevStep"/>
-        <step3 v-if="currentTab === 2" @prevStep="prevStep" @finish="finish"/>
-      </div>
+      <vxe-toolbar ref="xToolbar1" custom> </vxe-toolbar>
+
+      <vxe-table
+        border
+        resizable
+        ref="xTable"
+        :height="900"
+        align="center"
+        :row-config="{isCurrent: true, isHover: true}"
+        :data="tableData">
+        <vxe-column type="seq" title="序号" width="60"></vxe-column>
+        <vxe-column field="f" title="整改计划"></vxe-column>
+        <vxe-column field="g" title="上周进度 %" width="100"></vxe-column>
+        <vxe-column field="g" title="本周进度 %" width="100"></vxe-column>
+        <vxe-column field="h" title="责任领导" width="100"></vxe-column>
+        <vxe-column field="i" title="分管领导" width="100"></vxe-column>
+        <vxe-column field="j" title="整体牵头部门/负责人" width="200"></vxe-column>
+        <vxe-column field="k" title="整改时限" width="100"></vxe-column>
+        <vxe-column field="k" title="操作" width="120">
+          <template #default="{ row }">
+            <span class="edit-button" @click="editRow(row, 'edit', '编辑计划')">编辑</span>
+            <a-divider type="vertical"></a-divider>
+            <span class="edit-button" @click="editRow(row, 'view', '查看计划')">查看</span>
+          </template>
+        </vxe-column>
+      </vxe-table>
     </a-card>
+    <EditModel
+      v-if="visible"
+      :visible="visible"
+      :type="type"
+      :title="title"
+      @ok="handleOk"
+      @cancel="handleCancel"></EditModel>
   </page-header-wrapper>
 </template>
 
 <script>
-import Step1 from './Step1'
-import Step2 from './Step2'
-import Step3 from './Step3'
-
+import EditModel from './EditModel.vue'
 export default {
   name: 'StepForm',
   components: {
-    Step1,
-    Step2,
-    Step3
+    EditModel
   },
   data () {
     return {
-      currentTab: 0,
-      // form
-      form: null
+      title: '查看计划',
+      type: 'edit',
+      visible: false,
+      formData: null,
+      selectRow: null,
+      showEdit: false,
+      tableData: [
+        {
+          id: 10001,
+          c: '巡视反馈重点方面-长文本',
+          d: '巡视反馈重点内容-长文本',
+          e: '巡视反馈具体问题-长文本',
+          f: '整改计划-长文本',
+          g: '整改进度-数字',
+          ga: '整改描述-长文本',
+          h: '责任领导-短文本-下拉选字典',
+          i: '分管领导-短文本-下拉选字典',
+          j: '整体牵头部门/负责人-多选人员',
+          k: '整改时限-一个时间'
+        },
+        {
+          id: 10001,
+          c: '巡视反馈重点方面-长文本',
+          d: '巡视反馈重点内容-长文本',
+          e: '巡视反馈具体问题-长文本',
+          f: '整改计划-长文本',
+          g: '整改进度-数字',
+          ga: '整改描述-长文本',
+          h: '责任领导-短文本-下拉选字典',
+          i: '分管领导-短文本-下拉选字典',
+          j: '整体牵头部门/负责人-多选人员',
+          k: '整改时限-一个时间'
+        }
+      ]
     }
   },
   methods: {
-
-    // handler
-    nextStep () {
-      if (this.currentTab < 2) {
-        this.currentTab += 1
-      }
+    editRow (row, type, title) {
+      console.log(row)
+      this.visible = true
+      this.type = type
+      this.title = title
     },
-    prevStep () {
-      if (this.currentTab > 0) {
-        this.currentTab -= 1
-      }
+    handleOk () {
+      this.visible = false
     },
-    finish () {
-      this.currentTab = 0
+    handleCancel () {
+      this.visible = false
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .steps {
-    max-width: 750px;
-    margin: 16px auto;
+.steps {
+  max-width: 750px;
+  margin: 16px auto;
+}
+.edit-button {
+  color: #1961ac;
+  &:hover {
+    cursor: pointer;
   }
+}
 </style>

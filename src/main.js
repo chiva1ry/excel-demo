@@ -10,10 +10,10 @@ import i18n from './locales'
 import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
-
-      import 'xe-utils'
-      import VXETable from 'vxe-table'
-      import 'vxe-table/lib/style.css'
+import 'ant-design-vue/dist/antd.css'
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 import './mock'
@@ -41,5 +41,5 @@ new Vue({
   i18n,
   // init localstorage, vuex, Logo message
   created: bootstrap,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount('#app')
