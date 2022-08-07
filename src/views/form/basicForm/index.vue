@@ -2,19 +2,13 @@
   <!-- hidden PageHeaderWrapper title demo -->
   <page-header-wrapper :title="false" :d="$t('form.basic-form.basic.description')">
     <a-card style="margin-top: 20px">
-      查看全部版本：
+      查看其他版本：
       <a-select placeholder="请选择版本" style="width: 220px" >
         <a-select-option value="jack">
-          Jack
+          阿杰
         </a-select-option>
         <a-select-option value="lucy">
-          Lucy
-        </a-select-option>
-        <a-select-option value="disabled" disabled>
-          Disabled
-        </a-select-option>
-        <a-select-option value="Yiminghe">
-          yiminghe
+          阿霖
         </a-select-option>
       </a-select>
       <span class="title">
@@ -32,7 +26,8 @@
         :data="tableData2"
       >
         <vxe-column type="seq" title="序号" width="60"></vxe-column>
-        <vxe-column field="patrolFeedbackKeyAspect" title="巡视反馈重点方面" width="160"></vxe-column>
+        <vxe-column field="patrolFeedbackKeyAspect" title="巡视反馈重点方面" width="160">
+        </vxe-column>
         <vxe-column field="patrolFeedbackKeyContent" title="巡视反馈重点内容"></vxe-column>
         <vxe-column field="patrolFeedbackKeyProblem" title="巡视反馈具体问题"></vxe-column>
         <vxe-column field="rectificationPlan" title="整改计划"></vxe-column>
